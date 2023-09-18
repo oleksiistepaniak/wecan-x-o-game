@@ -1,0 +1,24 @@
+.registerFormInput {
+  display: block;
+}
+
+.registerForm {
+  text-align: center;
+  margin-top: 30px;
+}
+
+.registerFormSubmit {
+  background-color: #057605;
+  height: 30px;
+  color: white;
+  border-radius: 10px;
+  border: none;
+  width: 100px;
+  margin-top: 20px;
+}
+
+.registerFormSubmit:hover {
+  background-color: #08cb08;
+  transition: all 0.5s linear;
+  cursor: pointer;
+}

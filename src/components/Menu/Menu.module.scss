@@ -1,0 +1,25 @@
+.menu {
+  height: 100px;
+  margin-bottom: 20px;
+}
+
+.menuItem {
+  height: 50px;
+  background-color: #057605;
+  color: #fff;
+  border: silver solid 3px;
+  text-decoration: none;
+  display: block;
+}
+
+.menuItem:hover {
+  background-color: #08cb08;
+  cursor: pointer;
+  transition: all 0.5s linear;
+}
+
+.menuTitle {
+  text-align: center;
+  background-color: #057605;
+  color: white;
+}
