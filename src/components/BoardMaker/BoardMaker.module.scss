@@ -23,5 +23,12 @@
 }
 
 .boardMakerInput {
+display: flex;
+  justify-content: center;
+  align-items: center;
+}
 
+.boardMakerInputText {
+  display: flex;
+  justify-content: center;
 }

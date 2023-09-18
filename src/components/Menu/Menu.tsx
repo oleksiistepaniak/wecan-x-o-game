@@ -2,6 +2,7 @@ import Styles from './Menu.module.scss';
 import { Link } from "react-router-dom";
 import {Footer} from "../Footer/Footer.tsx";
 
+// A COMPONENT WHICH IS RESPONSIBLE FOR RENDERING THE MENU PAGE
 export const Menu = () => {
   return <div className={Styles.menu}>
       <h1 className={Styles.menuTitle}>

@@ -2,6 +2,7 @@ import Styles from './Rules.module.scss';
 import {Header} from "../Header/Header.tsx";
 import {Footer} from "../Footer/Footer.tsx";
 
+// A COMPONENT WHICH IS RESPONSIBLE FOR RENDERING THE RULES PAGE
 export const Rules = () => {
     return <>
     <Header/>

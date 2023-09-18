@@ -1,3 +1,4 @@
+// A SERVICE WHICH IS RESPONSIBLE FOR THE WHOLE LOGIC FOR THE BOARD COMPONENT
 export class GameService {
     constructor() {
     }
