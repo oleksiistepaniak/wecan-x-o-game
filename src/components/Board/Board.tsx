@@ -7,6 +7,8 @@ import {Header} from "../Header/Header.tsx";
 
 let data: string | null[][] = [];
 
+// THE MAIN COMPONENT IN THE GAME. IT IS INCLUDED THE GAME BOARD AND THE LOGICS HOW TO CALCULATE A WINNER
+// AND SO FORTH
 export default function Board() {
     const [searchParams] = useSearchParams();
     const quantityOfRows = parseInt(searchParams.get("rows") || "3");

@@ -1,4 +1,4 @@
-
+// A SERVICE WHICH IS RESPONSIBLE FOR THE WHOLE LOGIC FOR THE RECORDS COMPONENT
 export class RecordsService {
     constructor() {
     }

@@ -16,7 +16,7 @@ database.push({ id: 8, username: 'sergio', numberOfVictories: 20, password: '123
 database.push({ id: 9, username: 'george', numberOfVictories: 8, password: '123456'});
 database.push({ id: 10, username: 'user1337', numberOfVictories: 4, password: '123456'});
 
-// A COMPONENT WHICH IS RESPONSIBLE FOR RENDERING RECORDS PAGE
+// A COMPONENT WHICH IS RESPONSIBLE FOR RENDERING THE RECORDS PAGE
 export const Record = () => {
     const recordsService: RecordsService = new RecordsService();
     const recordsData: User[] = recordsService.sortUsersWithBiggestNumberOfVictories(database);

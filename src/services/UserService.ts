@@ -7,6 +7,7 @@ type User = {
 
 const database: User[] = [];
 
+// A SERVICE WHICH IS RESPONSIBLE FOR THE WHOLE LOGIC FOR THE REGISTRATION PAGE
 class UserService {
 
     constructor() {
@@ -14,8 +15,7 @@ class UserService {
 
     createUser(inputUsername: string, password: string): User | string {
         if (this.isUserRegistered(inputUsername)) {
-            return 'This user by this username has been registered!' +
-                ' Please, try other name for registration!';
+            return 'This user has been already registered.'
         }
         const user: User = {
             id: database.length,
@@ -25,7 +25,6 @@ class UserService {
         };
 
         database.push(user);
-
         return user;
     }
 
