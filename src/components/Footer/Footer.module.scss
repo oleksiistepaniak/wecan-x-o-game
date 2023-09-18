@@ -1,0 +1,25 @@
+.footer {
+height: 80px;
+  background-color: #057605;
+  text-align: center;
+  color: #fff;
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+}
+
+.footerItem {
+  display: flex;
+  justify-content: center;
+  text-decoration: none;
+  color: #fff;
+}
+
+.footerItem:hover {
+  cursor: pointer;
+}
+
+.footerText {
+  display: flex;
+  justify-content: center;
+}
