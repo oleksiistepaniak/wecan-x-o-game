@@ -14,14 +14,18 @@ export const BoardMaker = () => {
         <form className={Styles.boardMakerForm}>
                 Enter number of columns:
                 <input
-                    type="text"
+                    type="number"
+                    min={3}
+                    max={10}
                     value={numberOfColumns}
                     className={Styles.boardMakerInputText}
                     onChange={(event) => setNumberOfColumns(parseInt(event.target.value))}
                 />
                 Enter number of rows:
                 <input
-                    type="text"
+                    type="number"
+                    min={3}
+                    max={10}
                     value={numberOfRows}
                     className={Styles.boardMakerInputText}
                     onChange={(event) => setNumberOfRows(+event.target.value)}

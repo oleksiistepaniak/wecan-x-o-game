@@ -7,6 +7,7 @@ import {Registration} from "./components/Registration/Registration.tsx";
 import {Record} from "./components/Record/Record.tsx";
 import {BoardMaker} from "./components/BoardMaker/BoardMaker.tsx";
 import {Rules} from "./components/Rules/Rules.tsx";
+import {ServicesProvider} from "./context/ServicesContext.tsx";
 
 export const root = ReactDOM.createRoot(document.getElementById('root')!);
 
@@ -38,11 +39,9 @@ const router = createBrowserRouter([
 ]);
 
 root.render(
+    <ServicesProvider>
   <React.StrictMode>
       <RouterProvider router={router}/>
-  </React.StrictMode>,
+  </React.StrictMode>
+    </ServicesProvider>,
 )
-
-
-
-
