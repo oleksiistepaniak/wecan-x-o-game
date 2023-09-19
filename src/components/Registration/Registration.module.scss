@@ -22,3 +22,19 @@
   transition: all 0.5s linear;
   cursor: pointer;
 }
+
+.successMessage {
+background-color: green;
+  display: flex;
+  margin: 20px 300px;
+  justify-content: space-around;
+  color: white;
+}
+
+.errorMessage {
+background-color: red;
+  display: flex;
+  margin: 20px 300px;
+  justify-content: space-around;
+  color: white;
+}
