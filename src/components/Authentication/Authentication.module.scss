@@ -1,0 +1,49 @@
+.authenticationForm {
+  margin: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-content: center;
+}
+
+.authenticationBlock {
+display: flex;
+  justify-content: center;
+  align-content: center;
+}
+
+.authenticationItem {
+  display: block;
+  align-content: center;
+}
+
+.authenticationInput {
+  display: block;
+}
+
+.authenticationSubmit {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 30px;
+  background-color: #057605;
+  color: white;
+  border-radius: 10px;
+  border: none;
+  width: 100px;
+  margin-top: 20px;
+}
+
+.authenticationSubmit:hover {
+  background-color: #08cb08;
+  transition: all 0.5s linear;
+  cursor: pointer;
+}
+
+.successMessage {
+
+}
+
+.errorMessage {
+
+}

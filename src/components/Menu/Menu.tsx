@@ -23,6 +23,10 @@ export const Menu = () => {
           className={Styles.menuItem}>
           RECORDS
       </Link>
+      <Link to="/sign-in"
+            className={Styles.menuItem}>
+          SIGN IN
+      </Link>
       <Footer/>
   </div>
 };

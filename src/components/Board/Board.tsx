@@ -1,15 +1,15 @@
-import {useState} from "react";
+import {useContext, useState} from "react";
 import {Square} from '../Square/Square';
 import {Link, useSearchParams} from "react-router-dom";
 import Styles from "./Board.module.scss"
 import {Header} from "../Header/Header.tsx";
 import {Footer} from "../Footer/Footer.tsx";
-import {useServices} from "../../context/ServicesContext.tsx";
+import {AppContext} from "../../main.tsx";
 
 // THE MAIN COMPONENT IN THE GAME. IT IS INCLUDED THE GAME BOARD AND THE LOGICS HOW TO PROCESS A CLICK
 // AND SO FORTH
 export default function Board() {
-    const { gameService} = useServices();
+    const {gameService} = useContext(AppContext);
     const [searchParams] = useSearchParams();
     const quantityOfRows = parseInt(searchParams.get("rows") || "3");
     const quantityOfColumns = parseInt(searchParams.get("cols") || "3");
@@ -47,7 +47,9 @@ export default function Board() {
             <div className={Styles.gameBoard}>
                 {squares.map((row: (string | null)[], rowIndex: number)=>
                 {
-                    return <div className={Styles.row} key={rowIndex}>
+                    return <div
+                        className={Styles.row}
+                        key={rowIndex}>
                         {row.map((value: string | null, columnIndex: number)=>{
                             return <Square
                                 key={columnIndex}

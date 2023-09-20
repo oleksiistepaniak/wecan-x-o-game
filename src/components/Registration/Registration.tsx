@@ -1,19 +1,19 @@
 import Styles from './Registration.module.scss';
 import {Header} from "../Header/Header.tsx";
 import {Footer} from "../Footer/Footer.tsx";
-import {useState} from "react";
-import {useServices} from "../../context/ServicesContext.tsx";
+import {useContext, useState} from "react";
 import {User} from "../../types/User.ts";
+import {AppContext} from "../../main.tsx";
 
 const EMPTY_STRING: string = '';
 
 // A COMPONENT WHICH IS RESPONSIBLE FOR RENDERING THE REGISTRATION PAGE
 export const Registration = () => {
+    const {userService}  = useContext(AppContext);
     const [username, setUsername] = useState(EMPTY_STRING);
     const [password, setPassword] = useState(EMPTY_STRING);
     const [isRegistrationSuccessful, setIsRegistrationSuccessful] = useState(false);
-    const [registrationMessage, setRegistrationMessage] = useState('');
-    const {userService} = useServices();
+    const [registrationMessage, setRegistrationMessage] = useState(EMPTY_STRING);
 
     function handleClick(event: React.MouseEvent<HTMLButtonElement, MouseEvent>): void {
         event.preventDefault();
@@ -30,7 +30,6 @@ export const Registration = () => {
             setPassword(EMPTY_STRING);
         }
     }
-
 
    return <>
        <Header/>

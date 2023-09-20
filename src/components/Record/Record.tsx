@@ -1,8 +1,9 @@
 import Styles from './Record.module.scss';
 import {Header} from "../Header/Header.tsx";
 import {Footer} from "../Footer/Footer.tsx";
-import {useServices} from "../../context/ServicesContext.tsx";
 import {User} from "../../types/User.ts";
+import {useContext} from "react";
+import {AppContext} from "../../main.tsx";
 
 // IMITATION OF THE DATABASE
 const imitationDatabase: User[] = [];
@@ -19,7 +20,7 @@ imitationDatabase.push({ id: 10, username: 'user1337', numberOfVictories: 4, pas
 
 // A COMPONENT WHICH IS RESPONSIBLE FOR RENDERING THE RECORDS PAGE
 export const Record = () => {
-    const {recordsService} = useServices();
+    const {recordsService} = useContext(AppContext);
     const recordsData: User[] = recordsService.sortUsersWithBiggestNumberOfVictories(imitationDatabase);
 
     return <>

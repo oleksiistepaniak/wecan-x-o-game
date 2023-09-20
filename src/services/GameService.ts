@@ -1,6 +1,33 @@
 // A SERVICE WHICH IS RESPONSIBLE FOR THE WHOLE LOGIC FOR THE BOARD COMPONENT
+import {Game} from "../types/Game.ts";
+import {database} from "../data/database.ts";
+import {User} from "../types/User.ts";
+
 export class GameService {
     constructor() {
+    }
+
+    getGameById(id: number): Game | undefined {
+        return database.games.find(it => it.id === id);
+    }
+
+    createGame(
+        firstUser: User,
+        secondUser: User,
+        board: (string | null)[][],
+        winner: string): Game {
+
+        const game: Game = {
+            id: database.games.length + 1,
+            firstUser: firstUser,
+            secondUser: secondUser,
+            board: board,
+            winner: winner,
+        };
+
+        database.games.push(game);
+
+        return game;
     }
 
     // A FUNCTION WHICH ALLOWS TO DISPLAY A STATUS GAME INFO

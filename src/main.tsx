@@ -7,10 +7,13 @@ import {Registration} from "./components/Registration/Registration.tsx";
 import {Record} from "./components/Record/Record.tsx";
 import {BoardMaker} from "./components/BoardMaker/BoardMaker.tsx";
 import {Rules} from "./components/Rules/Rules.tsx";
-import {ServicesProvider} from "./context/ServicesContext.tsx";
+import {Authentication} from "./components/Authentication/Authentication.tsx";
+import {AppContextProvider} from "./context/AppContext.ts";
 
-export const root = ReactDOM.createRoot(document.getElementById('root')!);
-
+export const root =
+    ReactDOM.createRoot(document.getElementById('root')!);
+export const AppContext =
+    React.createContext(null as unknown as AppContextProvider);
 const router = createBrowserRouter([
     {
         path: "/",
@@ -35,13 +38,17 @@ const router = createBrowserRouter([
     {
         path: "/rules",
         element: <Rules/>
+    },
+    {
+        path: "/sign-in",
+        element: <Authentication/>
     }
 ]);
 
 root.render(
-    <ServicesProvider>
   <React.StrictMode>
+      <AppContext.Provider value={new AppContextProvider()}>
       <RouterProvider router={router}/>
+      </AppContext.Provider>
   </React.StrictMode>
-    </ServicesProvider>,
 )
