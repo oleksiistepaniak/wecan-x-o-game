@@ -1,4 +1,4 @@
-import {User} from "../types/User.tsx";
+import {User} from "../types/User.ts";
 
 // A SERVICE WHICH IS RESPONSIBLE FOR THE WHOLE LOGIC FOR THE RECORDS COMPONENT
 export class RecordsService {

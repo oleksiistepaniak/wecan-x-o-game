@@ -2,30 +2,27 @@ import {createContext, useContext, ReactNode} from "react";
 import {GameService} from "../services/GameService.ts";
 import {RecordsService} from "../services/RecordsService.ts";
 import {UserService} from "../services/UserService.ts";
-
-type ServicesContextType = {
-    gameService: GameService,
-    userService: UserService,
-    recordsService: RecordsService,
-};
+import {ServicesContext} from "../types/ServicesContext.ts";
+import {BoardMakerService} from "../services/BoardMakerService.ts";
 
 const ServicesContext =
-    createContext<ServicesContextType | undefined>(undefined);
+    createContext<ServicesContext | undefined>(undefined);
 
 export function ServicesProvider({ children }: { children: ReactNode}) {
     const gameService: GameService = new GameService();
     const userService: UserService = new UserService();
     const recordsService: RecordsService = new RecordsService();
+    const boardMakerService: BoardMakerService = new BoardMakerService();
 
     return (
-        <ServicesContext.Provider value={{ gameService, userService, recordsService}}>
+        <ServicesContext.Provider value={{ gameService, userService, recordsService, boardMakerService}}>
             {children}
         </ServicesContext.Provider>
     )
 }
 
-export function useServices(): ServicesContextType {
-    const context: ServicesContextType | undefined = useContext(ServicesContext);
+export function useServices(): ServicesContext {
+    const context: ServicesContext | undefined = useContext(ServicesContext);
     if (context === undefined) {
         throw new Error('useServices повинен використовуватися в межах ServicesProvider');
     }

@@ -3,12 +3,14 @@ import {Header} from "../Header/Header.tsx";
 import {Footer} from "../Footer/Footer.tsx";
 import {useState} from "react";
 import {useServices} from "../../context/ServicesContext.tsx";
-import {User} from "../../types/User.tsx";
+import {User} from "../../types/User.ts";
+
+const EMPTY_STRING: string = '';
 
 // A COMPONENT WHICH IS RESPONSIBLE FOR RENDERING THE REGISTRATION PAGE
 export const Registration = () => {
-    const [username, setUsername] = useState('');
-    const [password, setPassword] = useState('');
+    const [username, setUsername] = useState(EMPTY_STRING);
+    const [password, setPassword] = useState(EMPTY_STRING);
     const [isRegistrationSuccessful, setIsRegistrationSuccessful] = useState(false);
     const [registrationMessage, setRegistrationMessage] = useState('');
     const {userService} = useServices();
@@ -19,9 +21,13 @@ export const Registration = () => {
         if (typeof user === 'string') {
             setIsRegistrationSuccessful(false);
             setRegistrationMessage(user);
+            setUsername(EMPTY_STRING);
+            setPassword(EMPTY_STRING);
         } else {
             setIsRegistrationSuccessful(true);
             setRegistrationMessage('Congratulations! You have been successfully signed up!');
+            setUsername(EMPTY_STRING);
+            setPassword(EMPTY_STRING);
         }
     }
 

@@ -1,4 +1,4 @@
-import {User} from "../types/User.tsx";
+import {User} from "../types/User.ts";
 
 export const usersDatabase: User[]= [];
 

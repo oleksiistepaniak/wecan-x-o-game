@@ -32,3 +32,11 @@ display: flex;
   display: flex;
   justify-content: center;
 }
+
+.isNotSuccessMessage {
+  background-color: red;
+  display: flex;
+  margin: 20px 300px;
+  justify-content: space-around;
+  color: white;
+}
