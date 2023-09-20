@@ -2,7 +2,7 @@ import Styles from './Record.module.scss';
 import {Header} from "../Header/Header.tsx";
 import {Footer} from "../Footer/Footer.tsx";
 import {useServices} from "../../context/ServicesContext.tsx";
-import {User} from "../../types/User.tsx";
+import {User} from "../../types/User.ts";
 
 // IMITATION OF THE DATABASE
 const imitationDatabase: User[] = [];
