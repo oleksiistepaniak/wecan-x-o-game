@@ -5,7 +5,7 @@ import {Header} from "../Header/Header.tsx";
 import {Footer} from "../Footer/Footer.tsx";
 import {AppContext} from "../../main.tsx";
 import {User} from "../../types/User.ts";
-import {Game} from "../../types/Game.ts";
+import {database} from "../../data/database.ts";
 
 // A COMPONENT WHICH ALLOWS TO CHOOSE HOW MANY COLUMNS AND ROWS IN THE BOARD WILL BE CREATED
 export const BoardMaker = () => {
@@ -18,7 +18,6 @@ export const BoardMaker = () => {
     const [searchParams] = useSearchParams();
     const firstUserId: number = parseInt(searchParams.get('firstUserId') || '0');
     const secondUserId: number = parseInt(searchParams.get('secondUserId') || '0');
-    const [game, setGame] = useState(new Game());
     const navigate = useNavigate();
 
     function handleClick(event: React.MouseEvent<HTMLAnchorElement, MouseEvent>): void {
@@ -32,15 +31,16 @@ export const BoardMaker = () => {
             const firstUser: User | undefined = userService.getUserById(firstUserId);
             const secondUser: User | undefined = userService.getUserById(secondUserId);
             if (typeof firstUser !== 'undefined' && typeof secondUser !== 'undefined') {
-                setGame(gameService.createGame(
+                gameService.createGame(
                     firstUser,
                     secondUser,
                     gameService.createBoard(numberOfRows, numberOfColumns),
-                    ''));
+                    '');
             }
             setRowsAndColumnsAreEqual(true);
             setMessage('');
-            navigate(`/game?id=${game.id}`);
+            navigate(`/game?id=${database.games.length}`);
+            console.log(database.games[database.games.length - 1]);
         }
     }
 
@@ -66,7 +66,7 @@ export const BoardMaker = () => {
                     onChange={(event) => setNumberOfRows(+event.target.value)}
                 />
             <Link
-                to={`/game?id=${game.id}`}
+                to={`/game?id=${database.games.length}`}
                 className={Styles.boardMakerSubmit}
                 onClick={(event) => handleClick(event)}>
                 START NEW GAME

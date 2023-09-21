@@ -31,32 +31,50 @@ export class GameService {
     }
 
     // A FUNCTION WHICH ALLOWS TO DISPLAY A STATUS GAME INFO
-    printStatusInfo(squares: (string | null)[][], xIsNextTurn: boolean, winner: string | null): string {
+    printStatusInfo(squares: (string | null)[][], firstUser: User, secondUser: User, winner: string | null): string {
         let status: string;
 
         if (winner) {
             status = `Congratulations! A winner is ${winner}`;
         } else {
-            status = `The next player's move: ${xIsNextTurn ? 'X' : 'O'}`;
+            status = `The next player's move: ${firstUser.isNextTurn ? firstUser.username + ' as X' : secondUser.username + ' as O'}`;
         }
 
         if (squares.every((array) =>
             array.every((value) => (value !== null) && !winner))) {
             status = `Draw!`;
+            firstUser.isNextTurn = true;
+            secondUser.isNextTurn = true;
         }
 
         return status;
     }
 
     // A FUNCTION WHICH ALLOWS TO CALCULATE A WINNER OF THE GAME
-    estimateWinner(squares: (string | null) [][]): string | null {
+    estimateWinner(squares: (string | null) [][], firstUser: User, secondUser: User): string | null {
+        let winner: string | null = null;
+
         if (this.estimateWinnerByRows(squares)) {
-            return this.estimateWinnerByRows(squares);
+            winner = this.estimateWinnerByRows(squares);
         }
         if (this.estimateWinnerByColumns(squares)) {
-            return this.estimateWinnerByColumns(squares);
+            winner = this.estimateWinnerByColumns(squares);
         }
-        return this.estimateWinnerByDiagonals(squares);
+        if (this.estimateWinnerByDiagonals(squares)) {
+            winner = this.estimateWinnerByDiagonals(squares);
+        }
+
+        if (winner === 'X') {
+            winner = firstUser.username;
+            firstUser.isNextTurn = true;
+        }
+
+        if (winner === 'O') {
+            winner = secondUser.username;
+            secondUser.isNextTurn = true;
+        }
+
+        return winner;
     }
 
     // A FUNCTION WHICH ALLOWS TO PREPARE A GAME BOARD

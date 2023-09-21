@@ -1,4 +1,4 @@
-import {useContext, useState} from "react";
+import {useContext, useEffect, useState} from "react";
 import {Square} from '../Square/Square';
 import {Link, useSearchParams} from "react-router-dom";
 import Styles from "./Board.module.scss"
@@ -11,35 +11,66 @@ import {AppContext} from "../../main.tsx";
 export default function Board() {
     const {gameService} = useContext(AppContext);
     const [searchParams] = useSearchParams();
-    const quantityOfRows = parseInt(searchParams.get("rows") || "3");
-    const quantityOfColumns = parseInt(searchParams.get("cols") || "3");
-    const [xIsNextTurn, setXIsNextTurn]
-        = useState(true);
+    const gameId: number = parseInt(searchParams.get('id') || '1');
+    const game = gameService.getGameById(gameId);
     const [squares, setSquares]
-        = useState<(string | null)[][]>(gameService.createBoard(quantityOfRows, quantityOfColumns));
-    const winner: string | null = gameService.estimateWinner(squares);
-    const status: string = gameService.printStatusInfo(squares, xIsNextTurn, winner);
+            = useState<(string | null)[][]>(game!.board);
+    const [winner, setWinner]
+        = useState<string | null>(null);
+    const [firstUserWins, setFirstUserWins]
+        = useState<number>(game!.firstUser.numberOfVictories);
+    const [secondUserWins, setSecondUserWins]
+        = useState<number>(game!.secondUser.numberOfVictories);
+    const status: string = gameService.printStatusInfo(squares, game!.firstUser, game!.secondUser, winner);
+
+    useEffect(() => {
+        const newWinner = gameService.estimateWinner(
+            squares,
+            game!.firstUser,
+            game!.secondUser
+        );
+        if (newWinner === game!.firstUser.username) {
+            setWinner(game!.firstUser.username);
+            setFirstUserWins((prevWins) => prevWins + 1);
+            game!.firstUser.numberOfVictories = firstUserWins + 1;
+            game!.winner = newWinner;
+        }
+        if (newWinner === game!.secondUser.username) {
+            setWinner(game!.secondUser.username);
+            setSecondUserWins((prevWins) => prevWins + 1);
+            game!.secondUser.numberOfVictories = secondUserWins + 1;
+            game!.winner = newWinner;
+        }
+        if (status === 'Draw!') {
+            game!.winner = 'draw';
+        }
+    }, [squares, game]);
 
     function handleClick(mainIndex: number, secondIndex: number) {
-        if (squares[mainIndex][secondIndex] || gameService.estimateWinner(squares)) {
+        if (squares[mainIndex][secondIndex] || winner) {
             return;
         }
         const nextSquares: (string | null)[][] = [...squares];
-        if (xIsNextTurn) {
+        if (game?.firstUser.isNextTurn) {
             nextSquares[mainIndex][secondIndex] = 'X';
+            game.firstUser.isNextTurn = false;
+            game.secondUser.isNextTurn = true;
         } else {
             nextSquares[mainIndex][secondIndex] = 'O';
+            game!.secondUser.isNextTurn = false;
+            game!.firstUser.isNextTurn = true;
         }
         setSquares(nextSquares);
-        setXIsNextTurn(!xIsNextTurn);
+        game!.board = nextSquares;
         console.log(squares);
+        console.log(game);
     }
 
     return (
         <>
             <Header/>
             <Link
-                to="/start-game"
+                to="/sign-in"
                 className={Styles.boardMenuItem}>
                 START NEW GAME
             </Link>

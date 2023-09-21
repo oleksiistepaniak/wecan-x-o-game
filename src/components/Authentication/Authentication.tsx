@@ -4,7 +4,7 @@ import {Footer} from "../Footer/Footer.tsx";
 import {useContext, useState} from "react";
 import {User} from "../../types/User.ts";
 import {AppContext} from "../../main.tsx";
-import {Link, useNavigate} from "react-router-dom";
+import {useNavigate} from "react-router-dom";
 
 // A COMPONENT WHICH IS RESPONSIBLE FOR RENDERING THE AUTHENTICATION PAGE
 export const Authentication = () => {
@@ -37,14 +37,20 @@ export const Authentication = () => {
             setXIsAuthenticated(true);
             setXAuthenticationMessage('You have successfully signed in as X');
             setXUserId(user.id);
+            setXUsername('');
+            setXPassword('');
         } else {
             setXIsAuthenticated(false);
             setXAuthenticationMessage(user);
+            setXUsername('');
+            setXPassword('');
         }
 
         if (xUsername === oUsername) {
             setXIsAuthenticated(false);
             setXAuthenticationMessage('Each user must be unique!');
+            setXUsername('');
+            setXPassword('');
         }
     }
 
@@ -56,18 +62,24 @@ export const Authentication = () => {
             setOIsAuthenticated(true);
             setOAuthenticationMessage('You have successfully signed in as O');
             setOUserId(user.id);
+            setOUsername('');
+            setOPassword('');
         } else {
             setOAuthenticationMessage(user);
             setOIsAuthenticated(false);
+            setOUsername('');
+            setOPassword('');
         }
 
         if (xUsername === oUsername) {
             setOIsAuthenticated(false);
             setOAuthenticationMessage('Each user must be unique!');
+            setOUsername('');
+            setOPassword('');
         }
     }
 
-    function handleContinueClick(event:  React.MouseEvent<HTMLAnchorElement, MouseEvent>) {
+    function handleContinueClick(event:   React.MouseEvent<HTMLButtonElement, MouseEvent>) {
         event.preventDefault();
         if ((xUserId !== 0 && oUserId !== 0) && (xUserId !== oUserId)) {
             setIsContinuePossible(true);
@@ -140,13 +152,15 @@ export const Authentication = () => {
           </div>
       </form>
       </div>
-      <Link
-          to={`/start-game?firstUserId=${xUserId}&secondUserId=${oUserId}`}
-          onClick={(event) => handleContinueClick(event)}>
-          CONTINUE
-      </Link>
-      <div className={isContinuePossible ? '' : Styles.errorMessage}>
-          {continueMessage}
+      <div className={Styles.continueForm}>
+          <button
+              className={Styles.continueButton}
+              onClick={(event) => handleContinueClick(event)}>
+              CONTINUE
+          </button>
+          <div className={isContinuePossible ? '' : Styles.errorMessage}>
+              {continueMessage}
+          </div>
       </div>
       <Footer/>
   </>

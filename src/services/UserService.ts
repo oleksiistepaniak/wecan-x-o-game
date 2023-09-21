@@ -22,7 +22,8 @@ export class UserService {
             id: database.users.length + 1,
             username: inputUsername,
             numberOfVictories: 0,
-            password: password
+            password: password,
+            isNextTurn: true,
         };
 
         database.users.push(user);

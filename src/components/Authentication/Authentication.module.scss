@@ -1,37 +1,31 @@
-.authenticationForm {
-  margin: 20px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-content: center;
+.authenticationBlock {
+  margin-top: 20px;
 }
 
-.authenticationBlock {
-display: flex;
-  justify-content: center;
-  align-content: center;
+.authenticationForm {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .authenticationItem {
   display: block;
-  align-content: center;
+  flex-direction: column;
 }
 
 .authenticationInput {
-  display: block;
+display: block;
 }
 
 .authenticationSubmit {
   display: flex;
+  margin: 10px;
   justify-content: center;
-  align-items: center;
-  height: 30px;
-  background-color: #057605;
-  color: white;
+  width: 10%;
+background-color: #057605;
   border-radius: 10px;
   border: none;
-  width: 100px;
-  margin-top: 20px;
+  color: #fff;
 }
 
 .authenticationSubmit:hover {
@@ -41,9 +35,41 @@ display: flex;
 }
 
 .successMessage {
-
+  margin: 10px;
+  width: 350px;
+  background-color: #057605;
+  color: #fff;
+  text-align: center;
+  border-radius: 10px;
 }
 
 .errorMessage {
+margin: 10px;
+  width: 350px;
+  background-color: red;
+  color: #fff;
+  text-align: center;
+  border-radius: 10px;
+}
 
+.continueForm {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.continueButton {
+  margin: 10px;
+  text-decoration: none;
+  color: #fff;
+  width: 10%;
+  background-color: #057605;
+  border-radius: 10px;
+  border: none;
+}
+
+.continueButton:hover {
+  background-color: #08cb08;
+  transition: all 0.5s linear;
+  cursor: pointer;
 }

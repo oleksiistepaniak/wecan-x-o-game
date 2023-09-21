@@ -9,23 +9,24 @@ export const Menu = () => {
           WECAN TIC TAC TOE GAME
       </h1>
       <Link
-          to="/start-game"
+          to="/sign-in"
           className={Styles.menuItem}>
           START NEW GAME
       </Link>
       <Link
-          to="/register"
+          to="/sign-up"
           className={Styles.menuItem}>
-          REGISTER
+          SIGN UP
       </Link>
       <Link
           to="/records"
           className={Styles.menuItem}>
           RECORDS
       </Link>
-      <Link to="/sign-in"
-            className={Styles.menuItem}>
-          SIGN IN
+      <Link
+          to="/history"
+          className={Styles.menuItem}>
+          HISTORY OF GAMES
       </Link>
       <Footer/>
   </div>

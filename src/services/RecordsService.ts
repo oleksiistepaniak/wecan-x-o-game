@@ -8,8 +8,15 @@ export class RecordsService {
 
     // A FUNCTION WHICH ALLOWS TO SORT USERS BY BIGGEST QUANTITY OF VICTORIES
     sortUsersWithBiggestNumberOfVictories(database: User[]): User[] {
+        if (database.length < 5) {
+            return database;
+        }
+
         return database.sort((firstUser: User, secondUser: User) => {
-            return secondUser.numberOfVictories - firstUser.numberOfVictories;
+            if (firstUser.numberOfVictories !== secondUser.numberOfVictories) {
+                return secondUser.numberOfVictories - firstUser.numberOfVictories;
+            }
+            return firstUser.username.localeCompare(secondUser.username);
         }).slice(0, 6);
     }
 }

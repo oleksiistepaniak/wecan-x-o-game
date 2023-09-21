@@ -7,7 +7,7 @@ export function Square(
         onSquareClick
     }: {
         value: string | null,
-        onSquareClick: () => void
+        onSquareClick?: () => void
     }
 ) {
     return <div

@@ -1,0 +1,38 @@
+.historyForm {
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.historyInput {
+  display: flex;
+}
+
+.historySubmit {
+  margin-top: 20px;
+  background-color: #057605;
+  border-radius: 10px;
+  color: #fff;
+  border: none;
+  width: 6%;
+  cursor: pointer;
+}
+
+.historySubmit:hover {
+  background-color: #08cb08;
+  cursor: pointer;
+  transition: all 0.5s linear;
+}
+
+.errorMessage {
+  background-color: red;
+  margin: 20px 350px;
+  border-radius: 10px;
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}

@@ -9,6 +9,8 @@ import {BoardMaker} from "./components/BoardMaker/BoardMaker.tsx";
 import {Rules} from "./components/Rules/Rules.tsx";
 import {Authentication} from "./components/Authentication/Authentication.tsx";
 import {AppContextProvider} from "./context/AppContext.ts";
+import {History} from "./components/History/History.tsx";
+import {HistoryGame} from "./components/History/HistoryGame/HistoryGame.tsx";
 
 export const root =
     ReactDOM.createRoot(document.getElementById('root')!);
@@ -24,7 +26,7 @@ const router = createBrowserRouter([
         element: <App/>,
     },
     {
-        path: "/register",
+        path: "/sign-up",
         element: <Registration/>
     },
     {
@@ -42,12 +44,20 @@ const router = createBrowserRouter([
     {
         path: "/sign-in",
         element: <Authentication/>
+    },
+    {
+        path: "/history",
+        element: <History/>
+    },
+    {
+        path: "/history/games",
+        element: <HistoryGame/>
     }
 ]);
 
 root.render(
   <React.StrictMode>
-      <AppContext.Provider value={new AppContextProvider()}>
+      <AppContext.Provider value={AppContextProvider.getInstance()}>
       <RouterProvider router={router}/>
       </AppContext.Provider>
   </React.StrictMode>
