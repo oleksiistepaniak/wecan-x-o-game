@@ -8,8 +8,8 @@ import {Game} from "../../../types/Game.ts";
 import {Square} from "../../Square/Square.tsx";
 
 export const HistoryGame = () => {
-    const {historyService}  = useContext(AppContext);
-    const[searchParams] = useSearchParams();
+    const {historyService} = useContext(AppContext);
+    const [searchParams] = useSearchParams();
     const gameId: number = parseInt(searchParams.get('id') || '0');
     const game: Game | undefined = historyService.getGameById(gameId);
     let board: (string | null)[][] = [];
@@ -20,16 +20,15 @@ export const HistoryGame = () => {
 
     return <>
         <Header/>
-    <div className={Styles.historyWinner}>
-        A winner was {game!.winner}!
-    </div>
+        <div className={Styles.historyWinner}>
+            A winner was {game!.winner}!
+        </div>
         <div className={Styles.historyBoard}>
-            {board.map((row: (string | null)[], rowIndex: number)=>
-            {
+            {board.map((row: (string | null)[], rowIndex: number) => {
                 return <div
                     className={Styles.historyRow}
                     key={rowIndex}>
-                    {row.map((value: string | null, columnIndex: number)=>{
+                    {row.map((value: string | null, columnIndex: number) => {
                         return <Square
                             key={columnIndex}
                             value={value}

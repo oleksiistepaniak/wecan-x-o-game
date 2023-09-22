@@ -27,7 +27,8 @@ export default function Board() {
         const newWinner = gameService.estimateWinner(
             squares,
             game!.firstUser,
-            game!.secondUser
+            game!.secondUser,
+            game!.numberToWin
         );
         if (newWinner === game!.firstUser.username) {
             setWinner(game!.firstUser.username);
