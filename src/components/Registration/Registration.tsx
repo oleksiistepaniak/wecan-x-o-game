@@ -1,33 +1,48 @@
 import Styles from './Registration.module.scss';
 import {Header} from "../Header/Header.tsx";
 import {Footer} from "../Footer/Footer.tsx";
-import {useContext, useState} from "react";
-import {User} from "../../types/User.ts";
-import {AppContext} from "../../main.tsx";
+import { useState} from "react";
+
+import {CreateUserDto} from "../../../backend/src/user/dto/create-user.dto.ts";
 
 const EMPTY_STRING: string = '';
 
 // A COMPONENT WHICH IS RESPONSIBLE FOR RENDERING THE REGISTRATION PAGE
 export const Registration = () => {
-    const {userService}  = useContext(AppContext);
     const [username, setUsername] = useState(EMPTY_STRING);
     const [password, setPassword] = useState(EMPTY_STRING);
     const [isRegistrationSuccessful, setIsRegistrationSuccessful] = useState(false);
     const [registrationMessage, setRegistrationMessage] = useState(EMPTY_STRING);
 
-    function handleClick(event: React.MouseEvent<HTMLButtonElement, MouseEvent>): void {
+    async function handleClick(event: React.MouseEvent<HTMLButtonElement, MouseEvent>) {
         event.preventDefault();
-        const user: User | string = userService.createUser(username, password);
-        if (typeof user === 'string') {
-            setIsRegistrationSuccessful(false);
-            setRegistrationMessage(user);
-            setUsername(EMPTY_STRING);
-            setPassword(EMPTY_STRING);
-        } else {
-            setIsRegistrationSuccessful(true);
-            setRegistrationMessage('Congratulations! You have been successfully signed up!');
-            setUsername(EMPTY_STRING);
-            setPassword(EMPTY_STRING);
+        const userDatabase: CreateUserDto = {
+            username: username,
+            password: password,
+        };
+
+        try {
+            const response = await fetch('http://localhost:5555/user',{
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(userDatabase),
+            });
+            if (response.ok) {
+                setIsRegistrationSuccessful(true);
+                setRegistrationMessage('Congratulations! You have been successfully signed up!');
+                setUsername(EMPTY_STRING);
+                setPassword(EMPTY_STRING);
+            } else {
+                const errorMessage = await response.text();
+                setIsRegistrationSuccessful(false);
+                setRegistrationMessage(errorMessage);
+                setUsername(EMPTY_STRING);
+                setPassword(EMPTY_STRING);
+            }
+        } catch (error) {
+            console.error('Error during sending POST query', error);
         }
     }
 

@@ -6,6 +6,7 @@ import {AppContext} from "../../main.tsx";
 import {Game} from "../../types/Game.ts";
 import {useNavigate} from "react-router-dom";
 
+
 export const History = () => {
     const [enteredGameId, setEnteredGameId] = useState(0);
     const [gameNotFoundMessage, setGameNotFoundMessage] = useState('');

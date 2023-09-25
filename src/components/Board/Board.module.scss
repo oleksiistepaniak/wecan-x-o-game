@@ -1,4 +1,5 @@
 .gameBoard {
+  margin-bottom: 100px;
 }
   .row {
     display: flex;
@@ -29,6 +30,7 @@
   font-size: 30px;
   display: block;
   text-decoration: none;
+  height: 100%;
 }
 
 .boardMenuItem:hover {
