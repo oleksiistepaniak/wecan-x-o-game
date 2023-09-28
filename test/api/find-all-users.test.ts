@@ -35,7 +35,9 @@ describe('FindAllUsers', () => {
         assert.ok(bob);
         assert.ok(john);
 
-        const result = await t.get('/user', '');
+        const result = await t.post('/user/all', '', {
+
+        });
         should(result).deepEqual([
             {
                 id: bob.id.toString(),
@@ -51,7 +53,9 @@ describe('FindAllUsers', () => {
     })
 
     it('Empty data', async() => {
-        const result = await t.get('/user', '');
+        const result = await t.post('/user/all', '', {
+
+        });
         should(result).deepEqual([]);
     })
 })

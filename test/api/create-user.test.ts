@@ -4,10 +4,8 @@ import should from "should";
 import {UserRepository} from "../../src/repositories/UserRepository";
 import * as assert from "assert";
 
-
+// TESTS WHICH ALLOW TO CHECK AN ENDPOINT CREATING A USER
 describe('CreateUser', () => {
-    //
-
     before(async () => {
         await t.init();
     });
@@ -20,6 +18,7 @@ describe('CreateUser', () => {
         await t.clearUsers();
     });
 
+    // A TEST WHICH CHECKS A SUCCESS CASE
     it('Success', async () => {
         const result = await t.post<UserRequestDto>('/user', '', {
             username: 'Oleksii',
@@ -45,6 +44,7 @@ describe('CreateUser', () => {
         })
     });
 
+    // A TEST WHICH CHECKS A FAILED CASE BECAUSE OF DUPLICATED NAME
     it('Duplicate name error', async () => {
         await t.post<UserRequestDto>('/user', '', {
             username: 'Oleksii',

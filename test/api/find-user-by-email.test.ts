@@ -1,8 +1,6 @@
 import {t} from "../TestHelper";
 import {UserRequestDto} from "../../src/dtos/UserRequestDto";
 import should from "should";
-import {UserRepository} from "../../src/repositories/UserRepository";
-import {UserService} from "../../src/services/UserService";
 
 describe('FindUserByEmail', () => {
     before(async () => {
@@ -24,14 +22,21 @@ describe('FindUserByEmail', () => {
             password: "bob2LLs"
         });
 
-        const result = await t.get(`/user?email=${oleksii.email}`, '');
+        const result = await t.post(`/user/by-email`, '', {
+            email: 'oleksii@gmail.com',
+        });
 
-        should(result).deepEqual([oleksii]);
+        should(result).deepEqual(oleksii);
     })
 
     it('User not found', async () => {
         const email: string = 'isnotvalidemail@gmail.com';
-        const result = await t.get(`/user?email=${email}`, '');
-        should(result).deepEqual([])
+        const result = await t.post(`/user/by-email`, '', {
+            email: email,
+        });
+        should(result).deepEqual({
+            statusCode: 400,
+            message: `There is no such users by email ${email} in the database!`
+        })
     })
 })

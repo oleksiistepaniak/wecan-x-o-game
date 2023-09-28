@@ -15,19 +15,19 @@ export class UserController {
         return user.mapToDto();
     }
 
-    @Get()
-    findAll(): Promise<UserResponseDto[]> {
-        return this.userService.findAll();
+    @Post('by-email')
+    findOneByEmail(@Body() email: string): Promise<UserResponseDto> {
+        return this.userService.findOneByEmail(email);
     }
 
-    @Get(':id')
-    findOneById(@Param('id') id: string) {
+    @Post('by-id')
+    findOneById(@Body() id: string): Promise<UserResponseDto> {
         return this.userService.findOneById(id);
     }
 
-    @Get()
-    findOneByEmail(@Query('email') email: string): Promise<UserResponseDto> {
-        return this.userService.findOneByEmail(email);
+    @Post('all')
+    findAll(): Promise<UserResponseDto[]> {
+        return this.userService.findAll();
     }
 
     @Patch()

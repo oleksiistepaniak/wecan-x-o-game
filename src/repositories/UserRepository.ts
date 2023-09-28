@@ -22,15 +22,8 @@ export class UserRepository {
     }
 
     async findUserById(id: string) {
-        try {
-            const userId: ObjectId = new ObjectId(id);
-            const result = await AppDb.appDb.usersCollection.findOne({_id: userId});
-            console.log(`A successful attempt to retrieve a user by id ${id}!`, result);
-            return result;
-        } catch (error) {
-            console.error('A failed attempt during retrieving a user by id from the database!');
-            throw new Error(`You could not retrieve a user by id ${id} from the database!`);
-        }
+            const result = await AppDb.appDb.usersCollection.findOne({_id: new ObjectId(id)});
+            return result ? new UserModel(result) : null;
     }
 
     async findUserByEmail(email: string): Promise<UserModel | null> {

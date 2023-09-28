@@ -1,9 +1,6 @@
 import {IsEmail, IsNotEmpty, IsString, Matches, MaxLength, MinLength} from "class-validator";
 
 export class UserRequestDto {
-    constructor() {
-    }
-
     @IsEmail({}, {message: 'You have entered an invalid email!'})
     email!: string;
     @IsNotEmpty({message: 'Username should not be empty!'})

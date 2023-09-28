@@ -41,20 +41,17 @@ export class UserService {
         return users.map(value => value.mapToDto());
     }
 
-    findOneById(id: string) {
-        return this.userRepository.findUserById(id);
+    async findOneById(id: string) {
+        const user = await this.userRepository.findUserById(id);
+        return user!.mapToDto();
     }
 
     async findOneByEmail(email: string): Promise<UserResponseDto> {
-        try {
             const user = await this.userRepository.findUserByEmail(email);
             if (user === null) {
-                throw new HttpException(`There is no such users in the database`, 400);
+                throw new HttpException(`There is no such users by email ${email} in the database!`, 400);
             }
             return user.mapToDto();
-        } catch (error) {
-            throw new HttpException(`There is no such users in the database`, 400);
-        }
     }
 
     update(email: string, user: UserUpdateDto) {
