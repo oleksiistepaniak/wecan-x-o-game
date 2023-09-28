@@ -32,6 +32,7 @@ export class UserRepository {
     }
 
     async updateUser(email: string, user: UserUpdateDto) {
+            //todo: fix with transaction or atomic mongo operation
             const userForUpdate = await AppDb.appDb.usersCollection.findOne({email: email});
             if (!userForUpdate) {
                 throw new Error('User not found');
