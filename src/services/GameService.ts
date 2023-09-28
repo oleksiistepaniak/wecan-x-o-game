@@ -2,6 +2,7 @@
 import {Game} from "../types/Game.ts";
 import {database} from "../data/database.ts";
 import {User} from "../types/User.ts";
+import {CreateGameDto} from "../../backend/src/game/dto/create-game.dto.ts";
 
 export class GameService {
     constructor() {
@@ -11,28 +12,14 @@ export class GameService {
         return database.games.find(it => it.id === id);
     }
 
-    createGame(
-        firstUser: User,
-        secondUser: User,
-        board: (string | null)[][],
-        numberToWin: number,
-        //game params, rows & cols, rolLength(how many X's needed to win)
-        winner: string //this param isn't needed here
-    ): Game {
-
-        const game: Game = {
-            id: database.games.length + 1,
-            firstUser: firstUser,
-            secondUser: secondUser,
-            numberToWin: numberToWin,
-            board: board, //this.getBoard(...params)
-            winner: winner,
-        };
-
-        database.games.push(game);
-        //database.createGame(...params without ID)
-
-        return game;
+    async createGame(params: CreateGameDto) {
+        return await fetch('http://localhost:5555/game', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(params),
+        });
     }
 
     // A FUNCTION WHICH ALLOWS TO DISPLAY A STATUS GAME INFO

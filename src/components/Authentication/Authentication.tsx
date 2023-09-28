@@ -2,19 +2,19 @@ import Styles from './Authentication.module.scss';
 import {Header} from "../Header/Header.tsx";
 import {Footer} from "../Footer/Footer.tsx";
 import {useContext, useState} from "react";
-import {User} from "../../types/User.ts";
 import {AppContext} from "../../main.tsx";
-import {useNavigate} from "react-router-dom";
+import { useNavigate} from "react-router-dom";
+import {UserDto} from "../../../backend/src/user/dto/user-dto.ts";
 
 // A COMPONENT WHICH IS RESPONSIBLE FOR RENDERING THE AUTHENTICATION PAGE
 export const Authentication = () => {
     const {userService} = useContext(AppContext);
     const [xUsername, setXUsername] = useState('');
     const [xPassword, setXPassword] = useState('');
-    const [xUserId, setXUserId] = useState(0);
+    const [xUserId, setXUserId] = useState('');
     const [oUsername, setOUsername] = useState('');
     const [oPassword, setOPassword] = useState('');
-    const [oUserId, setOUserId] = useState(0);
+    const [oUserId, setOUserId] = useState('');
     const [xIsAuthenticated, setXIsAuthenticated]
         = useState(false);
     const [xAuthenticationMessage, setXAuthenticationMessage]
@@ -29,23 +29,27 @@ export const Authentication = () => {
         = useState('');
     const navigate = useNavigate();
 
-    function handleClickFirstUser(event: React.MouseEvent<HTMLButtonElement, MouseEvent>) {
+    async function handleClickFirstUser(event: React.MouseEvent<HTMLButtonElement, MouseEvent>) {
         event.preventDefault();
-        const user: User | string = userService.authenticate(xUsername, xPassword);
+        const userX: UserDto = {
+            username: xUsername,
+            password: xPassword
+        }
+        const response = await userService.authenticate(userX);
+        const userXData = await response.json();
 
-        if (typeof user !== 'string') {
+        if (response.ok) {
             setXIsAuthenticated(true);
-            setXAuthenticationMessage('You have successfully signed in as X');
-            setXUserId(user.id);
+            setXAuthenticationMessage('You have successfully signed in as X!');
+            setXUserId(userXData._id);
             setXUsername('');
             setXPassword('');
-        } else {
+        } else if (response.status === 400) {
             setXIsAuthenticated(false);
-            setXAuthenticationMessage(user);
+            setXAuthenticationMessage('You have entered wrong password or username!');
             setXUsername('');
             setXPassword('');
         }
-
         if (xUsername === oUsername) {
             setXIsAuthenticated(false);
             setXAuthenticationMessage('Each user must be unique!');
@@ -54,23 +58,27 @@ export const Authentication = () => {
         }
     }
 
-    function handleClickSecondUser(event: React.MouseEvent<HTMLButtonElement, MouseEvent>) {
+    async function handleClickSecondUser(event: React.MouseEvent<HTMLButtonElement, MouseEvent>) {
         event.preventDefault();
-        const user: User | string = userService.authenticate(oUsername, oPassword);
+        const userO: UserDto = {
+            username: oUsername,
+            password: oPassword
+        }
+        const response = await userService.authenticate(userO);
+        const userOData = await response.json();
 
-        if (typeof user !== 'string') {
+        if (response.ok) {
             setOIsAuthenticated(true);
-            setOAuthenticationMessage('You have successfully signed in as O');
-            setOUserId(user.id);
+            setOAuthenticationMessage('You have successfully signed in as X!');
+            setOUserId(userOData._id);
             setOUsername('');
             setOPassword('');
-        } else {
-            setOAuthenticationMessage(user);
+        } else if (response.status === 400) {
             setOIsAuthenticated(false);
+            setOAuthenticationMessage('You have entered wrong password or username!');
             setOUsername('');
             setOPassword('');
         }
-
         if (xUsername === oUsername) {
             setOIsAuthenticated(false);
             setOAuthenticationMessage('Each user must be unique!');
@@ -81,7 +89,7 @@ export const Authentication = () => {
 
     function handleContinueClick(event:   React.MouseEvent<HTMLButtonElement, MouseEvent>) {
         event.preventDefault();
-        if ((xUserId !== 0 && oUserId !== 0) && (xUserId !== oUserId)) {
+        if ((xUserId !== '' && oUserId !== '') && (xUserId !== oUserId)) {
             setIsContinuePossible(true);
             navigate(`/start-game?firstUserId=${xUserId}&secondUserId=${oUserId}`);
         } else {
