@@ -1,37 +1,91 @@
-.authenticationBlock {
-  margin-top: 20px;
-}
-
 .authenticationForm {
   display: flex;
   flex-direction: column;
   align-items: center;
+  align-content: center;
+  overflow: clip;
+  border: 2px solid silver;
+  padding: 30px;
+  width: 20%;
+  margin: 20px auto;
+  border-radius: 40px;
+  animation: slideInFromBottom 2s ease;
+  transition: transform 1000ms;
 }
 
-.authenticationItem {
-  display: block;
-  flex-direction: column;
+.authenticationForm:hover {
+  background-color: aliceblue;
+  transform: translate(0, 100px);
 }
 
-.authenticationInput {
-display: block;
+.authenticationFormTitle {
+  margin-bottom: 10px;
+  font-size: 30px;
 }
 
-.authenticationSubmit {
+.authenticationFormItem {
   display: flex;
-  margin: 10px;
-  justify-content: center;
-  width: 10%;
-background-color: #057605;
-  border-radius: 10px;
-  border: none;
-  color: #fff;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 5px;
 }
 
-.authenticationSubmit:hover {
+.authenticationFormTextContainer {
+  text-align: center;
+}
+
+.authenticationFormText {
+  border: 2px solid silver;
+  border-radius: 20px;
+  height: 30px;
+}
+
+.authenticationFormSubmit {
+  margin-top: 10px;
+  width: 30%;
+  border: none;
+  border-radius: 10px;
+  background-color: #057605;
+  color: #fff;
+  transition: transform 1000ms;
+}
+
+.authenticationFormSubmit:hover {
   background-color: #08cb08;
   transition: all 0.5s linear;
   cursor: pointer;
+  transform: scale(1.4);
+}
+
+.authenticationFormIsNotRegistered {
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  align-content: center;
+}
+
+.authenticationFormIsNotRegisteredText {
+  font-size: 12px;
+}
+
+.authenticationFormSignUp {
+  text-align: center;
+  margin-top: 10px;
+  width: 60%;
+  height: 1%;
+  text-decoration: none;
+  border-radius: 10px;
+  background-color: #057605;
+  color: #fff;
+  transition: transform 1000ms;
+}
+
+.authenticationFormSignUp:hover {
+  background-color: #08cb08;
+  transition: all 0.5s linear;
+  cursor: pointer;
+  transform: scale(1.4);
 }
 
 .successMessage {
@@ -52,24 +106,11 @@ margin: 10px;
   border-radius: 10px;
 }
 
-.continueForm {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-.continueButton {
-  margin: 10px;
-  text-decoration: none;
-  color: #fff;
-  width: 10%;
-  background-color: #057605;
-  border-radius: 10px;
-  border: none;
-}
-
-.continueButton:hover {
-  background-color: #08cb08;
-  transition: all 0.5s linear;
-  cursor: pointer;
+@keyframes slideInFromBottom {
+  from {
+    transform: translateY(400%);
+  }
+  to {
+    transform: translateY(0);
+  }
 }

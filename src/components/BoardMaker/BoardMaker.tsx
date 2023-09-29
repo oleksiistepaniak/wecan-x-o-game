@@ -4,7 +4,6 @@ import {useContext, useState} from "react";
 import {Header} from "../Header/Header.tsx";
 import {Footer} from "../Footer/Footer.tsx";
 import {AppContext} from "../../main.tsx";
-import {CreateGameDto} from "../../../backend/src/game/dto/create-game.dto.ts";
 
 // A COMPONENT WHICH ALLOWS TO CHOOSE HOW MANY COLUMNS AND ROWS IN THE BOARD WILL BE CREATED
 export const BoardMaker = () => {

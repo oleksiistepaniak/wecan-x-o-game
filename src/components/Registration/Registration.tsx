@@ -3,14 +3,14 @@ import {Header} from "../Header/Header.tsx";
 import {Footer} from "../Footer/Footer.tsx";
 import {useContext, useState} from "react";
 import {AppContext} from "../../main.tsx";
-import {useNavigate} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 import {UserRequestDto} from "../../../backend/src/dtos/UserRequestDto.ts";
 
 const EMPTY_STRING: string = '';
 
 // A COMPONENT WHICH IS RESPONSIBLE FOR RENDERING THE REGISTRATION PAGE
 export const Registration = () => {
-    const {userService} = useContext(AppContext);
+    const {backendService} = useContext(AppContext);
     const [username, setUsername] = useState(EMPTY_STRING);
     const [password, setPassword] = useState(EMPTY_STRING);
     const [email, setEmail] = useState(EMPTY_STRING);
@@ -27,7 +27,7 @@ export const Registration = () => {
         };
 
         try {
-            const response = await userService.createUser(userDatabase);
+            const response = await backendService.createUser(userDatabase);
             if (response.ok) {
                 setIsRegistrationSuccessful(true);
                 setRegistrationMessage('Congratulations! You have been successfully signed up!');
@@ -58,8 +58,15 @@ export const Registration = () => {
    return <>
        <Header/>
     <form className={Styles.registerForm}>
-        <label className={Styles.registerFormInput}>
-            Email: <input
+        <div className={Styles.registerFormTitle}>
+            REGISTRATION
+        </div>
+        <label className={Styles.registerFormItem}>
+            <div className={Styles.registerFormTextContainer}>
+                Email
+            </div>
+            <input
+            className={Styles.registerFormText}
             type="text"
             placeholder="enter your email"
             value={email}
@@ -67,7 +74,11 @@ export const Registration = () => {
         />
         </label>
        <label className={Styles.registerFormInput}>
-           Username:  <input
+           <div className={Styles.registerFormTextContainer}>
+               Username
+           </div>
+           <input
+           className={Styles.registerFormText}
            type="text"
            placeholder="enter your nickname"
            value={username}
@@ -75,23 +86,37 @@ export const Registration = () => {
        />
        </label>
        <label className={Styles.registerFormInput}>
-           Password: <input
+           <div className={Styles.registerFormTextContainer}>
+               Password
+           </div>
+           <input
+           className={Styles.registerFormText}
            type="password"
            placeholder="at least 6 characters"
            value={password}
            onChange={(event) => setPassword(event.target.value)}
        />
        </label>
+        <div className={isRegistrationSuccessful ? Styles.successMessage : Styles.errorMessage}>
+            {registrationMessage}
+        </div>
        <button
            type="submit"
            className={Styles.registerFormSubmit}
            onClick={(event) => handleClick(event)}>
            SIGN UP
        </button>
+        <div className={Styles.registerFormIsAlreadyRegistered}>
+            <div className={Styles.registerFormIsAlreadyRegisteredText}>
+                Are you already registered? You can sign in
+            </div>
+            <Link
+                to="/sign-in"
+                className={Styles.registerFormSignIn}>
+                SIGN IN
+            </Link>
+        </div>
     </form>
-       <div className={isRegistrationSuccessful ? Styles.successMessage : Styles.errorMessage}>
-           {registrationMessage}
-       </div>
        <Footer/>
    </>
 }

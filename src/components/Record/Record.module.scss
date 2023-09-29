@@ -1,6 +1,8 @@
 .recordsList {
+  margin-top: 15px;
 background-color: #057605;
   border-radius: 10px;
+  animation: slideInFromBottom 2s ease;
 }
 
 .recordsElement {
@@ -17,4 +19,14 @@ background-color: #057605;
   text-align: center;
   line-height: 95px;
   font-size: 30px;
+  animation: slideInFromBottom 2s ease;
+}
+
+@keyframes slideInFromBottom {
+  from {
+    transform: translateY(900%);
+  }
+  to {
+    transform: translateY(0);
+  }
 }

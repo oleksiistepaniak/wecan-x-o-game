@@ -4,14 +4,15 @@ import {Footer} from "../Footer/Footer.tsx";
 
 // A COMPONENT WHICH IS RESPONSIBLE FOR RENDERING THE MENU PAGE
 export const Menu = () => {
-  return <div className={Styles.menu}>
+  return <>
       <h1 className={Styles.menuTitle}>
           WECAN TIC TAC TOE GAME
       </h1>
+        <div className={Styles.menu}>
       <Link
           to="/sign-in"
           className={Styles.menuItem}>
-          START NEW GAME
+          SIGN IN
       </Link>
       <Link
           to="/sign-up"
@@ -28,6 +29,7 @@ export const Menu = () => {
           className={Styles.menuItem}>
           HISTORY OF GAMES
       </Link>
-      <Footer/>
   </div>
+      <Footer/>
+    </>
 };

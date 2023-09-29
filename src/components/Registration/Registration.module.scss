@@ -1,42 +1,129 @@
-.registerFormInput {
-  display: block;
+.registerForm {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  align-content: center;
+  overflow: clip;
+  border: 2px solid silver;
+  padding: 30px;
+  width: 20%;
+  margin: 20px auto;
+  border-radius: 40px;
+  animation: slideInFromBottom 2s ease;
+  transition: transform 1000ms;
 }
 
-.registerForm {
+.registerForm:hover {
+  background-color: aliceblue;
+  transform: translate(0, 20%);
+}
+
+.registerFormTitle {
+  margin-bottom: 10px;
+  font-size: 30px;
+}
+
+.registerFormItem {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 5px;
+}
+
+.registerFormTextContainer {
   text-align: center;
-  margin-top: 30px;
+}
+
+.registerFormText {
+  border: 2px solid silver;
+  border-radius: 20px;
+  height: 30px;
 }
 
 .registerFormSubmit {
-  background-color: #057605;
-  height: 30px;
-  color: white;
-  border-radius: 10px;
+  margin-top: 10px;
+  width: 30%;
   border: none;
-  width: 100px;
-  margin-top: 20px;
+  border-radius: 10px;
+  background-color: #057605;
+  color: #fff;
+  transition: transform 1000ms;
 }
 
 .registerFormSubmit:hover {
   background-color: #08cb08;
   transition: all 0.5s linear;
   cursor: pointer;
+  transform: scale(1.4);
+}
+
+.registerFormIsAlreadyRegistered {
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  align-content: center;
+}
+
+.registerFormIsAlreadyRegisteredText {
+  font-size: 12px;
+}
+
+.registerFormSignIn {
+  text-align: center;
+  margin-top: 10px;
+  width: 60%;
+  height: 1%;
+  text-decoration: none;
+  border-radius: 10px;
+  background-color: #057605;
+  color: #fff;
+  transition: transform 1000ms;
+}
+
+.registerFormSignIn:hover {
+  background-color: #08cb08;
+  transition: all 0.5s linear;
+  cursor: pointer;
+  transform: scale(1.4);
 }
 
 .successMessage {
 background-color: green;
   display: flex;
-  margin: 20px 300px;
   justify-content: space-around;
   color: white;
   border-radius: 10px;
+  margin-top: 10px;
+  width: 80%;
+  animation: slideIn 2s ease-in-out;
 }
 
 .errorMessage {
 background-color: red;
   display: flex;
-  margin: 20px 300px;
   justify-content: space-around;
   color: white;
   border-radius: 10px;
+  margin-top: 10px;
+  width: 80%;
+  animation: slideIn 2s ease-in-out;
+}
+
+@keyframes slideInFromBottom {
+  from {
+    transform: translateY(400%);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateX(-100%);
+  }
+  to {
+    transform: translateX(0);
+  }
 }

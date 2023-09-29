@@ -1,5 +1,9 @@
-.header {
+* {
+  margin: 0;
+}
 
+.header {
+  animation: slideIn 2s ease-in-out;
 }
 
 .headerTitle {
@@ -21,4 +25,13 @@
   background-color: #08cb08;
   transition: all 0.5s linear;
   cursor: pointer;
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateX(-100%);
+  }
+  to {
+    transform: translateX(0);
+  }
 }

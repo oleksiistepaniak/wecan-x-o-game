@@ -1,6 +1,15 @@
+.menuTitle {
+  text-align: center;
+  background-color: #057605;
+  color: white;
+  animation: slideIn 2s ease;
+}
+
 .menu {
+  margin-top: 20px;
   height: 100px;
   margin-bottom: 20px;
+  animation: slideIn 2s ease;
 }
 
 .menuItem {
@@ -20,8 +29,11 @@
   transition: all 0.5s linear;
 }
 
-.menuTitle {
-  text-align: center;
-  background-color: #057605;
-  color: white;
+@keyframes slideIn {
+  from {
+    transform: translateX(-100%);
+  }
+  to {
+    transform: translateX(0);
+  }
 }
