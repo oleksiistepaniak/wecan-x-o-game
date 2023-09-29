@@ -1,5 +1,3 @@
-import {ObjectId} from "mongodb";
-import {IsEmail, IsNotEmpty, IsString, Matches, MaxLength, MinLength} from "class-validator";
 import {UserResponseDto} from "../dtos/UserResponseDto";
 import {UserRecord} from "../db/interfaces";
 

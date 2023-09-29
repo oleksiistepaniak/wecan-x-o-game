@@ -3,6 +3,7 @@ import {UserRequestDto} from "../../src/dtos/UserRequestDto";
 import should from "should";
 import {UserRepository} from "../../src/repositories/UserRepository";
 import * as assert from "assert";
+import {AppDb} from "../../src/db/AppDb";
 
 // TESTS WHICH ALLOW TO CHECK AN ENDPOINT CREATING A USER
 describe('CreateUser', () => {
@@ -27,15 +28,12 @@ describe('CreateUser', () => {
         });
 
         const userRepo = t.app.get(UserRepository);
-        const user = await userRepo.findUserByEmail('oleksii@gmail.com');
+        const user = await AppDb.appDb.client.withSession(session => {
+            return session.withTransaction(session => {
+                return userRepo.findUserByEmail(session, 'oleksii@gmail.com');
+            })
+        });
         assert.ok(user);
-        should(user.data).deepEqual({
-            _id: user.id,
-            username: 'Oleksii',
-            email: "oleksii@gmail.com",
-            password: "bob2LLs",
-            numberOfVictories: 0,
-        })
 
         should(result).deepEqual({
             id: user.id.toString(),
@@ -64,6 +62,7 @@ describe('CreateUser', () => {
         })
     })
 
+    // A TEST WHICH CHECKS A FAILED CASE BECAUSE OF DUPLICATED EMAIL
     it('Duplicate email error', async () => {
         await t.post<UserRequestDto>('/user', '', {
             username: 'Bob',
@@ -82,6 +81,4 @@ describe('CreateUser', () => {
             message: 'Duplicate email error',
         })
     })
-
-
 });

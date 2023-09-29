@@ -1,26 +1,28 @@
 import {HttpException, Injectable} from '@nestjs/common';
 import {UserModel} from "../models/UserModel";
 import {UserRepository} from "../repositories/UserRepository";
-import {ObjectId} from "mongodb";
+import {ClientSession, ObjectId} from "mongodb";
 import {UserUpdateDto} from "../dtos/UserUpdateDto";
 import {UserRequestDto} from "../dtos/UserRequestDto";
 import {UserResponseDto} from "../dtos/UserResponseDto";
+import {EncryptUtil} from "../util/EncryptUtil";
 
 @Injectable()
 export class UserService {
     constructor(private readonly userRepository: UserRepository) {
     }
 
-    async create(userParams: UserRequestDto): Promise<UserModel> {
+    async create(session: ClientSession, userParams: UserRequestDto): Promise<UserResponseDto> {
+        const hashedPassword: string = await EncryptUtil.hashPassword(userParams.password);
         const user: UserModel = new UserModel({
             _id: new ObjectId(),
             username: userParams.username,
             email: userParams.email,
-            password: userParams.password,
+            password: hashedPassword,
             numberOfVictories: 0,
         });
         try {
-            await this.userRepository.createUser(user);
+            await this.userRepository.createUser(session, user);
         } catch (error) {
             const errorMessage = String(error);
             const isNameDuplicate = errorMessage.includes('E11000') && errorMessage.includes('username:');
@@ -33,32 +35,40 @@ export class UserService {
             }
             throw error;
         }
-        return user;
+        return user.mapToDto();
     }
 
-    async findAll(): Promise<UserResponseDto[]> {
-        const users = await this.userRepository.findAllUsers();
+    async findAll(session: ClientSession): Promise<UserResponseDto[]> {
+        const users = await this.userRepository.findAllUsers(session);
         return users.map(value => value.mapToDto());
     }
 
-    async findOneById(id: string) {
-        const user = await this.userRepository.findUserById(id);
+    async findOneById(session: ClientSession, id: string): Promise<UserResponseDto> {
+        const user = await this.userRepository.findUserById(session, id);
         return user!.mapToDto();
     }
 
-    async findOneByEmail(email: string): Promise<UserResponseDto> {
-            const user = await this.userRepository.findUserByEmail(email);
+    async findOneByEmail(session: ClientSession, email: string): Promise<UserResponseDto> {
+            const user = await this.userRepository.findUserByEmail(session, email);
             if (user === null) {
                 throw new HttpException(`There is no such users by email ${email} in the database!`, 400);
             }
             return user.mapToDto();
     }
 
-    update(email: string, user: UserUpdateDto) {
-        return this.userRepository.updateUser(email, user);
+    async update(session: ClientSession, email: string, userParams: UserUpdateDto): Promise<UserResponseDto> {
+        const user = await this.userRepository.updateUser(session, email, userParams);
+        if (user === null) {
+            throw new HttpException(`There is no such users by email ${email} for updating in the database!`, 400);
+        }
+        return user.mapToDto();
     }
 
-    remove(id: number) {
-        return `This action removes a #${id} user`;
+    async remove(session: ClientSession, email: string): Promise<UserResponseDto> {
+        const user = await this.userRepository.removeUser(session, email);
+        if (user === null) {
+            throw new HttpException(`There is no such users by email ${email} for removing in the database!`, 400);
+        }
+        return user.mapToDto();
     }
 }

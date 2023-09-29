@@ -1,53 +1,65 @@
 import {UserModel} from "../models/UserModel";
 import {AppDb} from "../db/AppDb";
 import {Injectable} from "@nestjs/common";
-import {ObjectId} from "mongodb";
+import {ClientSession, ObjectId} from "mongodb";
 import {UserUpdateDto} from "../dtos/UserUpdateDto";
-
-
 
 @Injectable()
 export class UserRepository {
-    constructor() {
+
+    async createUser(session: ClientSession, user: UserModel): Promise<void> {
+        await AppDb.appDb.usersCollection.insertOne(user.data, { session });
     }
 
-    async createUser(user: UserModel) {
-        await AppDb.appDb.usersCollection.insertOne(user.data);
-    }
-
-    async findAllUsers(): Promise<UserModel[]> {
-            const result = await AppDb.appDb.usersCollection.find().toArray();
-            const array = result.map(value => new UserModel(value))
+    async findAllUsers(session: ClientSession): Promise<UserModel[]> {
+            const result = await AppDb.appDb.usersCollection
+                .find({}, {session}).toArray();
+            const array = result.map(record => new UserModel(record));
             return array;
     }
 
-    async findUserById(id: string) {
-            const result = await AppDb.appDb.usersCollection.findOne({_id: new ObjectId(id)});
+    async findUserById(session: ClientSession, id: string): Promise<UserModel | null> {
+            const result = await AppDb.appDb.usersCollection
+                .findOne({_id: new ObjectId(id)}, {session});
             return result ? new UserModel(result) : null;
     }
 
-    async findUserByEmail(email: string): Promise<UserModel | null> {
-        const result = await AppDb.appDb.usersCollection.findOne({email: email});
+    async findUserByEmail(session: ClientSession, email: string): Promise<UserModel | null> {
+        const result = await AppDb.appDb.usersCollection
+            .findOne({email}, {session});
         return result ? new UserModel(result) : null;
     }
 
-    async updateUser(email: string, user: UserUpdateDto) {
-            //todo: fix with transaction or atomic mongo operation
-            const userForUpdate = await AppDb.appDb.usersCollection.findOne({email: email});
-            if (!userForUpdate) {
-                throw new Error('User not found');
+    async updateUser(session: ClientSession, email: string, user: UserUpdateDto): Promise<UserModel | null> {
+        const updateFields: object = {}
+        for (const key in user) {
+            if (user[key] !== undefined) {
+                updateFields[key] = user[key];
             }
-            const updateFields = {
-                username: user.username !== undefined ? user.username : userForUpdate.username,
-                password: user.password !== undefined ? user.password : userForUpdate.password,
-                email: user.email !== undefined ? user.email : userForUpdate.email,
-            };
+        }
             const filter = { email: email };
-            const update = { $set: updateFields}
+            const update = { $set: updateFields };
 
-            const result = await AppDb.appDb.usersCollection.updateOne(filter, update);
+            const result = await AppDb.appDb.usersCollection
+                .updateOne(filter, update, {session});
+
             if (result.modifiedCount === 1) {
-                console.log(`A successful attempt to update a user by email ${email}`);
+                const updatedUser = await AppDb.appDb.usersCollection
+                    .findOne({ email: user.email}, {session});
+                return updatedUser ? new UserModel(updatedUser) : null;
+            } else {
+                throw new Error('A user is not successfully updated!');
             }
+    }
+
+    async removeUser(session: ClientSession, email: string): Promise<UserModel | null> {
+        const userRecord = await AppDb.appDb.usersCollection.findOne({email},
+            {session});
+        const userForDeletion = new UserModel(userRecord!);
+       const resul = await AppDb.appDb.usersCollection.deleteOne({email: email}, {session});
+       if (resul.deletedCount === 1) {
+           return userForDeletion;
+       }
+       return null;
     }
 }

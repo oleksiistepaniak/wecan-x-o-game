@@ -3,6 +3,7 @@ import {UserRequestDto} from "../../src/dtos/UserRequestDto";
 import should from "should";
 import {UserRepository} from "../../src/repositories/UserRepository";
 import * as assert from "assert";
+import {AppDb} from "../../src/db/AppDb";
 
 describe('FindAllUsers', () => {
 
@@ -30,8 +31,16 @@ describe('FindAllUsers', () => {
             password: "john2JOHN"
         });
         const userRepo = t.app.get(UserRepository);
-        const bob = await userRepo.findUserByEmail('bob@gmail.com');
-        const john = await userRepo.findUserByEmail('john@gmail.com');
+        const bob = await AppDb.appDb.client.withSession(session => {
+            return session.withTransaction(session => {
+                return userRepo.findUserByEmail(session, 'bob@gmail.com');
+            })
+        });
+        const john = await AppDb.appDb.client.withSession(session => {
+            return session.withTransaction(session => {
+                return userRepo.findUserByEmail(session, 'john@gmail.com');
+            })
+        });
         assert.ok(bob);
         assert.ok(john);
 
